@@ -44,10 +44,11 @@ def portScan(tgtHost, tgtPorts):
         t.start()
 
 def nmapScan(tgtHost, tgtPort):
+    tgtIP = gethostbyname(tgtHost)
     nmScan = nmap.PortScanner()
-    nmScan.scan(tgtHost, tgtPort)
-    state = nmScan[tgtHost]['tcp'][int(tgtPort)]['state']
-    print(" [*] "+tgtHost+" tcp/"+tgtPort+" "+state )
+    nmScan.scan(tgtIP, tgtPort)
+    state = nmScan[tgtIP]['tcp'][int(tgtPort)]['state']
+    print(" [*] "+tgtHost+"/"+tgtIP+" tcp/"+tgtPort+" "+state )
 
 
 def main():
@@ -63,7 +64,8 @@ def main():
         print("[-] You must specity a target host and port[s]")
         exit(0)
 
-    nmapScan(tgtHost, tgtPorts)
+    for tgtPort in tgtPorts:
+        nmapScan(tgtHost, tgtPort)
 
 if __name__ == '__main__':
     main()
