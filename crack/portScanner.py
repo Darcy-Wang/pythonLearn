@@ -61,11 +61,12 @@ def main():
     tgtPorts = str(options.tgtPort).split(', ')
     #if no option given, return usage and exit
     if (tgtHost == None) | (tgtPorts == None):
-        print("[-] You must specity a target host and port[s]")
+        print("[-] You must specify a target host and port[s]")
         exit(0)
 
     for tgtPort in tgtPorts:
-        nmapScan(tgtHost, tgtPort)
+        t = threading.Thread(target=nmapScan, args=(tgtHost, tgtPort))
+        t.start()
 
 if __name__ == '__main__':
     main()
